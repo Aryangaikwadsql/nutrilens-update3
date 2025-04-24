@@ -1,0 +1,11 @@
+{
+  "name": "Nutrilens",
+  "short_name": "Nutrilens",
+  "description": "AI-Powered Nutrition & Health Tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#09090b",
+  "icons": []
+}
+
