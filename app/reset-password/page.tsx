@@ -2,14 +2,13 @@
 
 import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Eye, EyeOff, Key } from "lucide-react"
+import { Button } from "components/ui/button"
+import { Input } from "components/ui/input"
+import { Label } from "components/ui/label"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "components/ui/card"
+import { Alert, AlertDescription } from "components/ui/alert"
 import { confirmPasswordReset, verifyPasswordResetCode } from "firebase/auth"
-import { auth } from "@/lib/firebase"
+import { auth } from "lib/firebase"
 import Link from "next/link"
 
 export default function ResetPasswordPage() {
@@ -22,6 +21,14 @@ export default function ResetPasswordPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const oobCode = searchParams.get("oobCode")
+
+  if (!oobCode) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
+        <div className="text-center text-red-600">Invalid or missing reset code.</div>
+      </div>
+    )
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -103,7 +110,7 @@ export default function ResetPasswordPage() {
                     className="absolute right-3 top-2.5 text-muted-foreground"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    {showPassword ? "Hide" : "Show"}
                   </button>
                 </div>
               </div>
@@ -118,7 +125,7 @@ export default function ResetPasswordPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                   />
-                  <Key className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                  <span className="absolute right-3 top-2.5 text-muted-foreground" aria-label="key icon" role="img">🔑</span>
                 </div>
               </div>
               <Button type="submit" className="w-full" disabled={loading}>
